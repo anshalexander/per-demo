@@ -26,10 +26,19 @@ const closeBtn = document.querySelector('.close');
 
 // Initialize the game
 function init() {
-    setupPuzzleBoard();
-    createPuzzle();
-    shufflePuzzle(); // Start with shuffled pieces, not the complete image
-    setupEventListeners();
+    // Preload the image before creating puzzle
+    const img = new Image();
+    img.onload = function() {
+        setupPuzzleBoard();
+        createPuzzle();
+        shufflePuzzle(); // Start with shuffled pieces, not the complete image
+        setupEventListeners();
+    };
+    img.onerror = function() {
+        console.error('Failed to load puzzle image:', IMAGE_URL);
+        alert('Failed to load puzzle image. Please refresh the page.');
+    };
+    img.src = IMAGE_URL;
 }
 
 // Setup the puzzle board grid
@@ -43,6 +52,8 @@ function setupPuzzleBoard() {
 function createPuzzle() {
     puzzlePieces = [];
     puzzleBoard.innerHTML = '';
+    
+    console.log('Creating puzzle with image:', IMAGE_URL);
 
     for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
         const piece = document.createElement('div');
@@ -57,7 +68,7 @@ function createPuzzle() {
         const bgPosX = (col * PIECE_SIZE);
         const bgPosY = (row * PIECE_SIZE);
         
-        piece.style.backgroundImage = `url(${IMAGE_URL})`;
+        piece.style.backgroundImage = `url('${IMAGE_URL}')`;
         piece.style.backgroundPosition = `-${bgPosX}px -${bgPosY}px`;
         piece.style.backgroundSize = `${GRID_SIZE * PIECE_SIZE}px ${GRID_SIZE * PIECE_SIZE}px`;
         piece.style.width = `${PIECE_SIZE}px`;
@@ -74,6 +85,8 @@ function createPuzzle() {
         puzzleBoard.appendChild(piece);
         puzzlePieces.push(piece);
     }
+    
+    console.log(`Created ${puzzlePieces.length} puzzle pieces`);
 }
 
 // Shuffle puzzle pieces
@@ -97,8 +110,11 @@ function shufflePuzzle() {
     
     // If by chance we got the same order, shuffle again
     if (isSame) {
+        console.log('Shuffling again - got same order');
         return shufflePuzzle();
     }
+    
+    console.log('Puzzle shuffled successfully');
     
     // Remove all correct indicators
     puzzlePieces.forEach(piece => piece.classList.remove('correct'));
@@ -106,8 +122,10 @@ function shufflePuzzle() {
     // Reorder pieces in the DOM
     indices.forEach((originalIndex, newPosition) => {
         const piece = puzzlePieces[originalIndex];
-        piece.dataset.currentIndex = newPosition;
-        puzzleBoard.appendChild(piece);
+        if (piece) {
+            piece.dataset.currentIndex = newPosition;
+            puzzleBoard.appendChild(piece);
+        }
     });
     
     // Reset game state
@@ -253,6 +271,7 @@ function showCompletionModal() {
     document.getElementById('final-time').textContent = timerDisplay.textContent;
     document.getElementById('final-moves').textContent = moves;
     
+    completionModal.style.display = 'flex';
     completionModal.classList.add('show');
     
     // Add extra celebration effects
@@ -328,6 +347,7 @@ function setupEventListeners() {
     // Play again button
     playAgainBtn.addEventListener('click', () => {
         completionModal.classList.remove('show');
+        completionModal.style.display = 'none';
         resetGame();
     });
 }
@@ -348,4 +368,11 @@ function resetGame() {
 }
 
 // Initialize game when page loads
-window.addEventListener('load', init);
+window.addEventListener('load', () => {
+    // Hide completion modal on load
+    completionModal.classList.remove('show');
+    completionModal.style.display = 'none';
+    
+    // Initialize the game
+    init();
+});
