@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Puzzle - Valentine's Special 💕</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hearts-background">
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>💕 Love Puzzle 💕</h1>
+            <p class="tagline">Piece together our memories...</p>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">Time:</span>
+                <span id="timer">00:00</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Moves:</span>
+                <span id="moves">0</span>
+            </div>
+            <button id="preview-btn" class="btn">👁️ Peek</button>
+            <button id="shuffle-btn" class="btn">🔄 Shuffle</button>
+        </div>
+
+        <div class="puzzle-container">
+            <div id="puzzle-board" class="puzzle-board"></div>
+            <div id="preview-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img id="preview-image" src="" alt="Preview">
+                </div>
+            </div>
+        </div>
+
+        <div id="completion-modal" class="modal completion-modal">
+            <div class="modal-content celebration">
+                <div class="confetti"></div>
+                <h2>🎉 You Did It! 🎉</h2>
+                <p class="completion-message">
+                    Just like this puzzle, you complete me! 💖<br>
+                    <span class="cheeky-text">Now... about that date night you promised? 😏</span>
+                </p>
+                <div class="stats">
+                    <p>Time: <span id="final-time"></span></p>
+                    <p>Moves: <span id="final-moves"></span></p>
+                </div>
+                <button id="play-again-btn" class="btn btn-primary">Play Again 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

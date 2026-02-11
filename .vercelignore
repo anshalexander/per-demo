@@ -1,0 +1,10 @@
+# Development and setup files
+create-sample-image.html
+crop-image.html
+convert-image.py
+original-photo.png
+README.md
+
+# System files
+.DS_Store
+*.log

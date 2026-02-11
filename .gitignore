@@ -1,0 +1,17 @@
+# Development files
+convert-image.py
+create-sample-image.html
+crop-image.html
+original-photo.png
+
+# System files
+.DS_Store
+*.log
+.env
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
